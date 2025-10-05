@@ -15,6 +15,7 @@ namespace LocOn.Models
         public int FilmeId { get; set; }
         public virtual Filme? Filme { get; set; }
         public int UsuarioId { get; set; }
+        public bool Ativa { get; set; }
         
         [ForeignKey("UsuarioId")]
         public virtual Usuario? Usuario { get; set; }

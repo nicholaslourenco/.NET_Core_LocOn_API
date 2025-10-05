@@ -7,6 +7,9 @@ namespace LocOn.Services
 {
     public class UsuarioService
     {
-        
+        // READ
+        // POST
+        // UPDATE
+        // DELETE
     }
 }
