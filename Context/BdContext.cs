@@ -15,7 +15,7 @@ namespace LocOn.Context
         }
         
         public DbSet<Filme> Filmes { get; set; }
-        public DbSet<Reserva> Reservas { get; set; }
+        public DbSet<Plano> Planos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
     }
 }

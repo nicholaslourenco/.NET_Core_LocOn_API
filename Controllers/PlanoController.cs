@@ -10,17 +10,17 @@ namespace LocOn.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FilmeController : BaseApiController
+    public class PlanoController : BaseApiController
     {
-        private readonly FilmeService _filmeService;
+        private readonly PlanoService _planoService;
 
-        public FilmeController(UsuarioService usuarioService, FilmeService filmeService) : base(usuarioService)
+        public PlanoController(UsuarioService usuarioService, PlanoService planoService) : base(usuarioService)
         {
-            _filmeService = filmeService;
+            _planoService = planoService;
         }
 
         [HttpPost]
-        public IActionResult Registrar(Filme filme)
+        public IActionResult Registrar(Plano plano)
         {
             var currentUserId = GetCurrentUserId();
             var currentUserType = GetCurrentUserType();
@@ -34,18 +34,18 @@ namespace LocOn.Controllers
 
             if (!isAdmin)
             {
-                return StatusCode(403, new { message = "Você não tem permissão para cadastrar filmes." });
+                return StatusCode(403, new { message = "Você não tem permissão para cadastrar planos." });
             }
 
             try
             {
-                _filmeService.Inserir(filme);
+                _planoService.Inserir(plano);
 
-                return Ok("Filme cadastrado com sucesso!");
+                return Ok("Plano cadastrado com sucesso!");
             }
             catch (System.Exception e)
             {
-                return BadRequest(new { message = "Erro ao cadastrar filme.", error = e.Message });
+                return BadRequest(new { message = "Erro ao cadastrar plano.", error = e.Message });
             }
         }
 
@@ -59,7 +59,7 @@ namespace LocOn.Controllers
                 return BadRequest(new { message = "Você precisa estar logado..." });
             }
 
-            return Ok(_filmeService.Listar());
+            return Ok(_planoService.Listar());
         }
 
         [HttpGet("id")]
@@ -72,11 +72,11 @@ namespace LocOn.Controllers
                 return BadRequest(new { message = "Você precisa estar logado..." });
             }
 
-            return Ok(_filmeService.BuscaId(id));
+            return Ok(_planoService.BuscaId(id));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Editar(int id, [FromBody] Filme filmeEditado)
+        public IActionResult Editar(int id, [FromBody] Plano planoEditado)
         {
 
             var currentUserId = GetCurrentUserId();
@@ -91,10 +91,10 @@ namespace LocOn.Controllers
 
             if (!isAdmin)
             {
-                return StatusCode(403, new { message = "Você não tem permissão para editar filmes." });
+                return StatusCode(403, new { message = "Você não tem permissão para editar planos." });
             }
 
-            _filmeService.Editar(id, filmeEditado);
+            _planoService.Editar(id, planoEditado);
             return NoContent();
         }
 
@@ -113,10 +113,10 @@ namespace LocOn.Controllers
 
             if (!isAdmin)
             {
-                return StatusCode(403, new { message = "Você não tem permissão para excluir filmes." });
+                return StatusCode(403, new { message = "Você não tem permissão para excluir planos." });
             }
 
-            _filmeService.Excluir(id);
+            _planoService.Excluir(id);
             return NoContent();
         }
     }

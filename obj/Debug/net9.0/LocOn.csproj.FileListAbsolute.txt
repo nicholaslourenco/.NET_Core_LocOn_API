@@ -132,3 +132,16 @@ C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\ru\Microsoft.CodeAnalysis.Wo
 C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\BCrypt.Net-Core.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Microsoft.IdentityModel.Abstractions.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Microsoft.IdentityModel.Logging.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Microsoft.IdentityModel.Tokens.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Newtonsoft.Json.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\Stripe.net.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\System.Configuration.ConfigurationManager.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\System.IdentityModel.Tokens.Jwt.dll
+C:\GitHub\Projetos WEB\LocOn\LocOn\bin\Debug\net9.0\System.Security.Cryptography.ProtectedData.dll

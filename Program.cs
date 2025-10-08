@@ -1,6 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using LocOn.Context;
 using Microsoft.EntityFrameworkCore;
+using LocOn.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,10 +15,17 @@ builder.Services.AddDbContext<BdContext>(options =>
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+builder.Services.AddScoped<FilmeService>();
+builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<PlanoService>();
 builder.Services.AddOpenApi();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
+
+builder.Services.AddScoped<StripePaymentService>();
+
+Stripe.StripeConfiguration.ApiKey = builder.Configuration.GetValue<string>("StripeSettings:SecretKey");
 
 var app = builder.Build();
 
