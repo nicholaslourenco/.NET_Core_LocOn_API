@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using LocOn.Models;
 using LocOn.Context;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Stripe;
 
 namespace LocOn.Services
 {
@@ -30,11 +32,11 @@ namespace LocOn.Services
         }
 
         // UPDATE
-        public void Editar(int id, Plano planoEditado)
+        public Plano Editar(int id, Plano planoEditado)
         {
             Plano planoAntigo = _context.Planos.Find(id);
 
-            if (planoAntigo == null) return;
+            if (planoAntigo == null) return null;
 
             planoAntigo.Nome = planoEditado.Nome;
             planoAntigo.PrecoMensal = planoEditado.PrecoMensal;
@@ -43,6 +45,7 @@ namespace LocOn.Services
             planoAntigo.Ativo = planoEditado.Ativo;
 
             _context.SaveChanges();
+            return planoAntigo;
         }
 
         // BUSCA ID

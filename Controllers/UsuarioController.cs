@@ -7,6 +7,7 @@ using LocOn.DTOs;
 using LocOn.Models;
 using LocOn.Services;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LocOn.Controllers
 {
@@ -59,24 +60,35 @@ namespace LocOn.Controllers
             }
         }
 
+        // Endpoint para Login
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginDTO dadosLogin)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Usuario usuario = _usuarioService.Login(dadosLogin.Login, dadosLogin.Senha);
+
+            if (usuario == null)
+            {
+                return Unauthorized(new { message = "Login ou senha inválidos." });
+            }
+
+            var token = _tokenService.GerarToken(usuario);
+
+            return Ok(new
+            {
+                token = token,
+                usuario = new { usuario.Id, usuario.Login, usuario.Tipo, usuario.PlanoId }
+            });
+        }
+
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public IActionResult Listar()
         {
-            var currentUserId = GetCurrentUserId();
-            var currentUserType = GetCurrentUserType();
-
-            if (currentUserId == null)
-            {
-                return BadRequest(new { message = "Você precisa estar logado..." });
-            }
-
-            bool isAdmin = currentUserType == "Admin";
-
-            if (!isAdmin)
-            {
-                return StatusCode(403, new { message = "Você não tem permissão para acessar a lista de usuários." });
-            }
-
             var listaUsuarios = _usuarioService.Listar();
 
             // Limpeza de segurança
@@ -93,11 +105,6 @@ namespace LocOn.Controllers
         {
             var currentUserId = GetCurrentUserId();
             var currentUserType = GetCurrentUserType();
-
-            if (currentUserId == null)
-            {
-                return Unauthorized(new { message = "Você precisa estar logado..." });
-            }
 
             bool isAdmin = currentUserType == "Admin";
             bool isSelf = currentUserId.Value == id;
@@ -119,16 +126,11 @@ namespace LocOn.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Editar(int id, [FromBody] Usuario usuarioEditado)
+        public IActionResult Editar(int id, [FromBody] CadastroDTO usuarioEditado)
         {
 
             var currentUserId = GetCurrentUserId();
             var currentUserType = GetCurrentUserType();
-
-            if (currentUserId == null)
-            {
-                return Unauthorized(new { message = "Você precisa estar logado..." });
-            }
 
             bool isAdmin = currentUserType == "Admin";
             bool isSelf = currentUserId.Value == id;
@@ -138,7 +140,16 @@ namespace LocOn.Controllers
                 return StatusCode(403, new { message = "Você não tem permissão para editar este perfil." });
             }
 
-            _usuarioService.Editar(id, usuarioEditado);
+            string senhaHashGerada = BCrypt.Net.BCrypt.HashPassword(usuarioEditado.Senha);
+
+            var novoUsuario = new Usuario
+            {
+                Login = usuarioEditado.Login,
+                Nome = usuarioEditado.Nome,
+                SenhaHash = senhaHashGerada,
+            };
+
+            _usuarioService.Editar(id, novoUsuario);
             return NoContent();
         }
 
@@ -147,11 +158,6 @@ namespace LocOn.Controllers
         {
             var currentUserId = GetCurrentUserId();
             var currentUserType = GetCurrentUserType();
-
-            if (currentUserId == null)
-            {
-                return Unauthorized(new { message = "Você precisa estar logado..." });
-            }
 
             bool isAdmin = currentUserType == "Admin";
             bool isSelf = currentUserId.Value == id;

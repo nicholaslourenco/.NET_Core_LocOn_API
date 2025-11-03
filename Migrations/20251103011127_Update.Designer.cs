@@ -3,6 +3,7 @@ using LocOn.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocOn.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20251103011127_Update")]
+    partial class Update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,7 +128,7 @@ namespace LocOn.Migrations
                             Id = 1,
                             Login = "Admin",
                             Nome = "Administrador Master Blaster",
-                            SenhaHash = "$2b$10$4hSe9mGQEjgdJxkTez2gbu7eRJ0ghBT0lSZ55pWjxyxSKg5/7/YNS",
+                            SenhaHash = "Admin123",
                             Tipo = "Admin"
                         });
                 });

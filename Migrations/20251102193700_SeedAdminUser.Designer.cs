@@ -3,6 +3,7 @@ using LocOn.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LocOn.Migrations
 {
     [DbContext(typeof(BdContext))]
-    partial class BdContextModelSnapshot : ModelSnapshot
+    [Migration("20251102193700_SeedAdminUser")]
+    partial class SeedAdminUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,6 +32,9 @@ namespace LocOn.Migrations
 
                     MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("CaminhoImagem")
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Classificacao")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -37,11 +43,10 @@ namespace LocOn.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<byte[]>("Imagem")
+                        .HasColumnType("longblob");
 
-                    b.Property<string>("UrlCartaz")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("longtext");
 
@@ -125,7 +130,7 @@ namespace LocOn.Migrations
                             Id = 1,
                             Login = "Admin",
                             Nome = "Administrador Master Blaster",
-                            SenhaHash = "$2b$10$4hSe9mGQEjgdJxkTez2gbu7eRJ0ghBT0lSZ55pWjxyxSKg5/7/YNS",
+                            SenhaHash = "$2b$10$5fwCaVKEtlovaha2i4xhROQX5AR5ysu1pdWTzL5O5D7WclN17CDWm",
                             Tipo = "Admin"
                         });
                 });

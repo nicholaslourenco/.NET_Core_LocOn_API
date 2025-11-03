@@ -14,7 +14,6 @@ namespace LocOn.Models
         public string Nome { get; set; }
         public string Genero { get; set; }
         public string Classificacao { get; set; }
-        public string? CaminhoImagem { get; set; }
-        public byte[]? Imagem { get; set; }
+        public string UrlCartaz { get; set; }
     }
 }

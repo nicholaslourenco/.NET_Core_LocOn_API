@@ -54,16 +54,17 @@ namespace LocOn.Services
         }
 
         // UPDATE
-        public void Editar(int id, Usuario usuarioEditado)
+        public Usuario Editar(int id, Usuario usuarioEditado)
         {
             Usuario usuarioAntigo = _context.Usuarios.Find(id);
 
-            if (usuarioAntigo == null) return; // Tratamento de erro
+            if (usuarioAntigo == null) return null;
 
             usuarioAntigo.Nome = usuarioEditado.Nome;
             usuarioAntigo.Login = usuarioEditado.Login;
 
             _context.SaveChanges();
+            return usuarioAntigo;
         }
 
         // DELETE

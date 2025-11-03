@@ -3,17 +3,18 @@ using LocOn.Services;
 using LocOn.Models;
 using Stripe.Checkout;
 using Stripe;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LocOn.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PagamentosController : BaseApiController
     {
         private readonly StripePaymentService _paymentService;
         private readonly PlanoService _planoService;
 
-        // Injeção de dependência do serviço
         public PagamentosController(UsuarioService usuarioService,
                                     StripePaymentService paymentService,
                                     PlanoService planoService) : base(usuarioService)
@@ -28,10 +29,6 @@ namespace LocOn.Controllers
         {
             // 1. OBTEM ID REAL DO USUÁRIO LOGADO
             var currentUserId = GetCurrentUserId();
-            if (currentUserId == null)
-            {
-                return Unauthorized(new { message = "Você precisa estar logado para iniciar um pagamento." });
-            }
 
             // 2. BUSCA O PLANO REAL NO BANCO DE DADOS
             Plano planoReal = _planoService.BuscaId(planoId);

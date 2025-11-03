@@ -2,14 +2,17 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LocOn.DTOs;
 using LocOn.Models;
 using LocOn.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LocOn.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class FilmeController : BaseApiController
     {
         private readonly FilmeService _filmeService;
@@ -20,104 +23,84 @@ namespace LocOn.Controllers
         }
 
         [HttpPost]
-        public IActionResult Registrar(Filme filme)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Registrar([FromBody] FilmeRegistroDto filmeDto)
         {
-            var currentUserId = GetCurrentUserId();
-            var currentUserType = GetCurrentUserType();
-
-            if (currentUserId == null)
-            {
-                return BadRequest(new { message = "Você precisa estar logado..." });
-            }
-
-            bool isAdmin = currentUserType == "Admin";
-
-            if (!isAdmin)
-            {
-                return StatusCode(403, new { message = "Você não tem permissão para cadastrar filmes." });
-            }
-
             try
             {
-                _filmeService.Inserir(filme);
+                var filme = new Filme
+                {
+                    Nome = filmeDto.Nome,
+                    Genero = filmeDto.Genero,
+                    Classificacao = filmeDto.Classificacao,
+                    UrlCartaz = filmeDto.UrlCartaz
+                };
 
-                return Ok("Filme cadastrado com sucesso!");
+                Filme filmeInserido = _filmeService.Inserir(filme);
+
+                return Created(string.Empty, filmeInserido);
             }
             catch (System.Exception e)
             {
-                return BadRequest(new { message = "Erro ao cadastrar filme.", error = e.Message });
+                return StatusCode(500, new { message = "Erro ao cadastrar filme. Detalhe: " + e.Message });
             }
         }
 
         [HttpGet]
         public IActionResult Listar()
         {
-            var currentUserId = GetCurrentUserId();
-
-            if (currentUserId == null)
-            {
-                return BadRequest(new { message = "Você precisa estar logado..." });
-            }
-
             return Ok(_filmeService.Listar());
         }
 
         [HttpGet("id")]
         public IActionResult BuscaId([FromQuery(Name = "id")] int id)
         {
-            var currentUserId = GetCurrentUserId();
-
-            if (currentUserId == null)
-            {
-                return BadRequest(new { message = "Você precisa estar logado..." });
-            }
-
             return Ok(_filmeService.BuscaId(id));
         }
 
         [HttpPut("{id}")]
-        public IActionResult Editar(int id, [FromBody] Filme filmeEditado)
+        [Authorize(Roles = "Admin")]
+        public IActionResult Editar(int id, [FromBody] FilmeRegistroDto filmeDtoEditado)
         {
-
-            var currentUserId = GetCurrentUserId();
-            var currentUserType = GetCurrentUserType();
-
-            if (currentUserId == null)
+            try
             {
-                return Unauthorized(new { message = "Você precisa estar logado..." });
+                var filmeEditado = new Filme
+                {
+                    Nome = filmeDtoEditado.Nome,
+                    Genero = filmeDtoEditado.Genero,
+                    Classificacao = filmeDtoEditado.Classificacao,
+                    UrlCartaz = filmeDtoEditado.UrlCartaz
+                };
+                
+                Filme filmeAtualizado = _filmeService.Editar(id, filmeEditado);
+
+                if (filmeAtualizado == null)
+                {
+                    return NotFound(new { message = "Filme não encontrado." });
+                }
+
+                return NoContent();
             }
-
-            bool isAdmin = currentUserType == "Admin";
-
-            if (!isAdmin)
+            catch (System.Exception e)
             {
-                return StatusCode(403, new { message = "Você não tem permissão para editar filmes." });
+                return StatusCode(500, new { message = "Erro ao editar filme. Detalhe: " + e.Message }); 
             }
-
-            _filmeService.Editar(id, filmeEditado);
-            return NoContent();
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public IActionResult Excluir(int id)
         {
-            var currentUserId = GetCurrentUserId();
-            var currentUserType = GetCurrentUserType();
-
-            if (currentUserId == null)
+            try
             {
-                return Unauthorized(new { message = "Você precisa estar logado..." });
+                _filmeService.Excluir(id);
+
+                return NoContent();
             }
-
-            bool isAdmin = currentUserType == "Admin";
-
-            if (!isAdmin)
+            catch (System.Exception e)
             {
-                return StatusCode(403, new { message = "Você não tem permissão para excluir filmes." });
+                return StatusCode(500, new { message = "Erro ao excluir filme. Detalhe: " + e.Message });
             }
-
-            _filmeService.Excluir(id);
-            return NoContent();
         }
     }
 }
