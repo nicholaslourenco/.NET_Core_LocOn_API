@@ -72,10 +72,10 @@ No arquivo appsettings.json (ou appsettings.Development.json) dentro do projeto 
 
 3. **Executar as Migrations:**
 ```bash
-dotnet ef database update --project NomeDoProjeto.Infrastructure --startup-project NomeDoProjeto.API
+dotnet ef database update
 ```
 
 4. **Rodar a Aplicação:**
 ```bash
-dotnet run --project NomeDoProjeto.API
+dotnet run
 ```
