@@ -53,3 +53,32 @@ O projeto foi construído seguindo boas práticas de desenvolvimento de software
    ```bash
    git clone [https://github.com/seu-usuario/moviestream-api.git](https://github.com/seu-usuario/moviestream-api.git)
    cd moviestream-api
+
+2. **Configurar as Variáveis de Ambiente:**
+No arquivo appsettings.json (ou appsettings.Development.json) dentro do projeto principal da API, ajuste as credenciais do banco e as chaves do Stripe:
+```bash
+  {
+    "ConnectionStrings": {
+      "DefaultConnection": "Server=localhost;Database=moviestream_db;Uid=seu_usuario;Pwd=sua_senha;"
+    },
+    "JwtSettings": {
+      "Secret": "SUA_CHAVE_SECRETA_SUPER_SECRETA_DE_32_CARACTERES",
+      "Issuer": "MovieStream",
+      "Audience": "MovieStreamUsers"
+    },
+    "Stripe": {
+      "SecretKey": "sk_test_sua_chave_secreta_do_stripe",
+      "PublishableKey": "pk_test_sua_chave_publicavel_do_stripe"
+    }
+  }
+```
+
+3. **Executar as Migrations:**
+```bash
+dotnet ef database update --project NomeDoProjeto.Infrastructure --startup-project NomeDoProjeto.API
+```
+
+4. **Rodar a Aplicação:**
+```bash
+dotnet run --project NomeDoProjeto.API
+```
