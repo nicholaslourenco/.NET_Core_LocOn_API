@@ -50,9 +50,6 @@ O projeto foi construído seguindo boas práticas de desenvolvimento de software
 ### Passos para Configuração
 
 1. **Clonar o repositório:**
-   ```bash
-   git clone [https://github.com/seu-usuario/moviestream-api.git](https://github.com/seu-usuario/moviestream-api.git)
-   cd moviestream-api
 
 2. **Configurar as Variáveis de Ambiente:**
 No arquivo appsettings.json (ou appsettings.Development.json) dentro do projeto principal da API, ajuste as credenciais do banco e as chaves do Stripe:
